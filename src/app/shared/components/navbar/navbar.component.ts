@@ -18,6 +18,10 @@ import { MatMenuModule } from '@angular/material/menu';
           <span>Sistema de Gestión de Adquisiciones</span>
         </a>
         <div class="spacer"></div>
+        <!-- En tu navbar.component.html -->
+        <button mat-button routerLink="/adquisiciones/dashboard">
+          <mat-icon>dashboard</mat-icon> Dashboard
+        </button>
         <button mat-button routerLink="/adquisiciones">
           <mat-icon>list</mat-icon> Adquisiciones
         </button>

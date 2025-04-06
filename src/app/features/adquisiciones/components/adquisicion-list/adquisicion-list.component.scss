@@ -24,6 +24,7 @@
   .table-container {
     position: relative;
     min-height: 200px;
+    overflow-x: auto;
   }
   
   table {
@@ -50,9 +51,53 @@
   
   .mat-column-id {
     width: 5%;
+    max-width: 50px;
+  }
+
+  .mat-column-unidad {
+    width: 15%;
+  }
+
+  .mat-column-tipoBienServicio {
+    width: 10%;
+  }
+
+  .mat-column-presupuesto, 
+  .mat-column-valorUnitario, 
+  .mat-column-valorTotal {
+    width: 10%;
+    text-align: right;
+  }
+
+  .mat-column-cantidad {
+    width: 8%;
+    text-align: center;
+  }
+  
+  .mat-column-fechaAdquisicion {
+    width: 10%;
+  }
+  
+  .mat-column-proveedor {
+    width: 12%;
   }
   
   .mat-column-acciones {
-    width: 15%;
+    width: 12%;
     text-align: center;
+  }
+
+  .mat-column-estado {
+    width: 8%;
+    text-align: center;
+  }
+
+  mat-chip-set {
+    display: inline-flex !important;
+  }
+  
+  mat-chip {
+    min-height: 24px;
+    font-size: 12px;
+    padding: 2px 8px !important;
   }

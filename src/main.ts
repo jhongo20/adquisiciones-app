@@ -14,6 +14,6 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(),
     provideAnimations(),
-    provideClientHydration(withEventReplay())
+    provideClientHydration(withEventReplay()),
   ]
 }).catch(err => console.error(err));

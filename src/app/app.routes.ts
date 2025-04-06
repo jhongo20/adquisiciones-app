@@ -8,6 +8,11 @@ export const routes: Routes = [
       .then(m => m.AdquisicionListComponent)
   },
   {
+    path: 'adquisiciones/dashboard',
+    loadComponent: () => import('./features/adquisiciones/components/adquisicion-dashboard/adquisicion-dashboard.component')
+      .then(m => m.AdquisicionDashboardComponent)
+  },
+  {
     path: 'adquisiciones/nuevo',
     loadComponent: () => import('./features/adquisiciones/components/adquisicion-form/adquisicion-form.component')
       .then(m => m.AdquisicionFormComponent)
@@ -24,7 +29,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'adquisiciones',
+    redirectTo: 'adquisiciones/dashboard',
     pathMatch: 'full'
   }
 ];

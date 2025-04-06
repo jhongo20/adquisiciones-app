@@ -1,7 +1,7 @@
 // src/app/core/services/adquisicion.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Adquisicion } from '../models/adquisicion';
 import { HistorialAdquisicion } from '../models/historial-adquisicion';
 import { FiltroAdquisicion } from '../models/filtro-adquisicion';
@@ -50,4 +50,59 @@ export class AdquisicionService {
     
     return this.http.get<Adquisicion[]>(`${this.apiUrl}/filtrar`, { params });
   }
+
+  // Método para obtener estadísticas de adquisiciones
+  getEstadisticas(): Observable<any> {
+    return this.getAdquisiciones(true).pipe(
+      map(adquisiciones => {
+        return {
+          total: adquisiciones.length,
+          activas: adquisiciones.filter(a => a.activo).length,
+          inactivas: adquisiciones.filter(a => !a.activo).length,
+          valorTotal: adquisiciones.reduce((sum, a) => sum + (a.valorTotal || 0), 0),
+          valorPromedio: adquisiciones.length > 0 
+            ? adquisiciones.reduce((sum, a) => sum + (a.valorTotal || 0), 0) / adquisiciones.length 
+            : 0,
+          porTipoBienServicio: this.agruparPorPropiedad(adquisiciones, 'tipoBienServicio'),
+          porUnidad: this.agruparPorPropiedad(adquisiciones, 'unidad'),
+          porProveedor: this.agruparPorPropiedad(adquisiciones, 'proveedor'),
+          ultimasAdquisiciones: [...adquisiciones]
+            .sort((a, b) => new Date(b.fechaAdquisicion).getTime() - new Date(a.fechaAdquisicion).getTime())
+            .slice(0, 5)
+        };
+      })
+    );
+  }
+
+  // Método auxiliar para agrupar adquisiciones por una propiedad
+  private agruparPorPropiedad(adquisiciones: Adquisicion[], propiedad: keyof Adquisicion) {
+    const grupos: { [key: string]: any } = {};
+
+    adquisiciones.forEach(a => {
+      const valor = String(a[propiedad]);
+      if (!grupos[valor]) {
+        grupos[valor] = {
+          nombre: valor,
+          cantidad: 0,
+          valorTotal: 0
+        };
+      }
+      grupos[valor].cantidad++;
+      grupos[valor].valorTotal += (a.valorTotal || 0);
+    });
+
+    return Object.values(grupos).sort((a, b) => b.valorTotal - a.valorTotal);
+  }
+
+  // Método para obtener las últimas adquisiciones
+  getUltimasAdquisiciones(limit: number = 5): Observable<Adquisicion[]> {
+    return this.getAdquisiciones().pipe(
+      map(adquisiciones => 
+        [...adquisiciones]
+          .sort((a, b) => new Date(b.fechaAdquisicion).getTime() - new Date(a.fechaAdquisicion).getTime())
+          .slice(0, limit)
+      )
+    );
+  }
+
 }

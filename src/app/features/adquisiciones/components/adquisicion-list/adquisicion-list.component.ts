@@ -17,6 +17,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { Adquisicion } from '../../../../core/models/adquisicion';
 import { FiltroAdquisicion } from '../../../../core/models/filtro-adquisicion';
@@ -47,6 +48,7 @@ import { AdquisicionFilterComponent } from '../adquisicion-filter/adquisicion-fi
     MatChipsModule,
     MatSlideToggleModule,
     MatFormFieldModule,
+    MatMenuModule,
     AdquisicionFilterComponent
   ],
   templateUrl: './adquisicion-list.component.html',
@@ -56,7 +58,7 @@ export class AdquisicionListComponent implements OnInit {
   displayedColumns: string[] = [
     'id', 'unidad', 'tipoBienServicio', 'presupuesto', 
     'cantidad', 'valorUnitario', 'valorTotal', 
-    'fechaAdquisicion', 'proveedor', 'acciones'
+    'fechaAdquisicion', 'proveedor', 'estado', 'acciones'
   ];
   dataSource: MatTableDataSource<Adquisicion>;
   isLoading = false;
