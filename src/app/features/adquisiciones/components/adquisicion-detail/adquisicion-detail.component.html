@@ -1,0 +1,154 @@
+<!-- src/app/features/adquisiciones/components/adquisicion-detail/adquisicion-detail.component.html -->
+<div class="container adquisicion-detail-container">
+    <div class="header">
+      <h1>Detalle de Adquisición</h1>
+      <button mat-button (click)="volver()">
+        <mat-icon>arrow_back</mat-icon> Volver
+      </button>
+    </div>
+  
+    <div class="loading-shade" *ngIf="isLoading">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  
+    <ng-container *ngIf="adquisicion">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            {{ adquisicion.tipoBienServicio }} - {{ adquisicion.proveedor }}
+            <mat-chip-set class="status-chip" *ngIf="!adquisicion.activo">
+              <mat-chip color="warn" selected>Inactivo</mat-chip>
+            </mat-chip-set>
+          </mat-card-title>
+          <mat-card-subtitle>
+            ID: {{ adquisicion.id }} | Fecha: {{ adquisicion.fechaAdquisicion | date:'dd/MM/yyyy' }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <mat-tab-group>
+            <mat-tab label="Información General">
+              <div class="detail-section">
+                <div class="detail-row">
+                  <div class="detail-label">Presupuesto:</div>
+                  <div class="detail-value">{{ adquisicion.presupuesto | currency }}</div>
+                </div>
+                
+                <div class="detail-row">
+                  <div class="detail-label">Unidad:</div>
+                  <div class="detail-value">{{ adquisicion.unidad }}</div>
+                </div>
+                
+                <div class="detail-row">
+                  <div class="detail-label">Tipo de Bien/Servicio:</div>
+                  <div class="detail-value">{{ adquisicion.tipoBienServicio }}</div>
+                </div>
+                
+                <div class="detail-row">
+                  <div class="detail-label">Cantidad:</div>
+                  <div class="detail-value">{{ adquisicion.cantidad }}</div>
+                </div>
+                
+                <div class="detail-row">
+                  <div class="detail-label">Valor Unitario:</div>
+                  <div class="detail-value">{{ adquisicion.valorUnitario | currency }}</div>
+                </div>
+                
+                <div class="detail-row">
+                  <div class="detail-label">Valor Total:</div>
+                  <div class="detail-value">{{ adquisicion.valorTotal | currency }}</div>
+                </div>
+                
+                <div class="detail-row">
+                  <div class="detail-label">Fecha de Adquisición:</div>
+                  <div class="detail-value">{{ adquisicion.fechaAdquisicion | date:'dd/MM/yyyy' }}</div>
+                </div>
+                
+                <div class="detail-row">
+                  <div class="detail-label">Proveedor:</div>
+                  <div class="detail-value">{{ adquisicion.proveedor }}</div>
+                </div>
+                
+                <mat-divider></mat-divider>
+                
+                <div class="detail-row">
+                  <div class="detail-label">Documentación:</div>
+                  <div class="detail-value documentation">{{ adquisicion.documentacion || 'No disponible' }}</div>
+                </div>
+                
+                <mat-divider></mat-divider>
+                
+                <div class="detail-row">
+                  <div class="detail-label">Estado:</div>
+                  <div class="detail-value">
+                    <mat-chip-set>
+                      <mat-chip [color]="adquisicion.activo ? 'primary' : 'warn'" selected>
+                        {{ adquisicion.activo ? 'Activo' : 'Inactivo' }}
+                      </mat-chip>
+                    </mat-chip-set>
+                  </div>
+                </div>
+                
+                <div class="detail-row">
+                  <div class="detail-label">Fecha de Creación:</div>
+                  <div class="detail-value">{{ adquisicion.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</div>
+                </div>
+                
+                <div class="detail-row" *ngIf="adquisicion.fechaModificacion">
+                  <div class="detail-label">Última Modificación:</div>
+                  <div class="detail-value">{{ adquisicion.fechaModificacion | date:'dd/MM/yyyy HH:mm' }}</div>
+                </div>
+              </div>
+            </mat-tab>
+            
+            <mat-tab label="Historial de Cambios">
+              <div class="table-container">
+                <table mat-table [dataSource]="historial" class="mat-elevation-z2">
+                  <ng-container matColumnDef="campoModificado">
+                    <th mat-header-cell *matHeaderCellDef>Campo</th>
+                    <td mat-cell *matCellDef="let item">{{ item.campoModificado }}</td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="valorAnterior">
+                    <th mat-header-cell *matHeaderCellDef>Valor Anterior</th>
+                    <td mat-cell *matCellDef="let item">{{ item.valorAnterior }}</td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="valorNuevo">
+                    <th mat-header-cell *matHeaderCellDef>Valor Nuevo</th>
+                    <td mat-cell *matCellDef="let item">{{ item.valorNuevo }}</td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="fechaModificacion">
+                    <th mat-header-cell *matHeaderCellDef>Fecha</th>
+                    <td mat-cell *matCellDef="let item">{{ item.fechaModificacion | date:'dd/MM/yyyy HH:mm' }}</td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="usuarioModificacion">
+                    <th mat-header-cell *matHeaderCellDef>Usuario</th>
+                    <td mat-cell *matCellDef="let item">{{ item.usuarioModificacion }}</td>
+                  </ng-container>
+                  
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="5">No hay registros en el historial</td>
+                  </tr>
+                </table>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+        
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="editarAdquisicion()">
+            <mat-icon>edit</mat-icon> Editar
+          </button>
+          <button mat-raised-button color="warn" *ngIf="adquisicion.activo" (click)="desactivarAdquisicion()">
+            <mat-icon>delete</mat-icon> Desactivar
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+  </div>

@@ -1,0 +1,63 @@
+<!-- src/app/features/adquisiciones/components/adquisicion-filter/adquisicion-filter.component.html -->
+<form [formGroup]="filtroForm" (ngSubmit)="aplicarFiltro()">
+    <div class="filter-container">
+      <div class="filter-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Unidad Administrativa</mat-label>
+          <mat-select formControlName="unidad">
+            <mat-option value="">Todas</mat-option>
+            <mat-option *ngFor="let unidad of unidades" [value]="unidad">
+              {{ unidad }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo de Bien o Servicio</mat-label>
+          <mat-select formControlName="tipoBienServicio">
+            <mat-option value="">Todos</mat-option>
+            <mat-option *ngFor="let tipo of tiposBienServicio" [value]="tipo">
+              {{ tipo }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Proveedor</mat-label>
+          <mat-select formControlName="proveedor">
+            <mat-option value="">Todos</mat-option>
+            <mat-option *ngFor="let proveedor of proveedores" [value]="proveedor">
+              {{ proveedor }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <div class="filter-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha desde</mat-label>
+          <input matInput [matDatepicker]="pickerDesde" formControlName="fechaDesde">
+          <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+          <mat-datepicker #pickerDesde></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha hasta</mat-label>
+          <input matInput [matDatepicker]="pickerHasta" formControlName="fechaHasta">
+          <mat-datepicker-toggle matSuffix [for]="pickerHasta"></mat-datepicker-toggle>
+          <mat-datepicker #pickerHasta></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-checkbox formControlName="incluirInactivos">Incluir inactivos</mat-checkbox>
+      </div>
+  
+      <div class="filter-actions">
+        <button mat-raised-button color="primary" type="submit">
+          <mat-icon>filter_list</mat-icon> Aplicar Filtros
+        </button>
+        <button mat-button type="button" (click)="limpiarFiltros()">
+          <mat-icon>clear</mat-icon> Limpiar Filtros
+        </button>
+      </div>
+    </div>
+  </form>

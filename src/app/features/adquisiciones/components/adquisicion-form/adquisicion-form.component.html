@@ -1,0 +1,134 @@
+<!-- src/app/features/adquisiciones/components/adquisicion-form/adquisicion-form.component.html -->
+<div class="container adquisicion-form-container">
+    <div class="header">
+      <h1>{{ isEditing ? 'Editar' : 'Nueva' }} Adquisición</h1>
+      <button mat-button (click)="cancelar()">
+        <mat-icon>arrow_back</mat-icon> Volver
+      </button>
+    </div>
+  
+    <mat-card>
+      <mat-card-content>
+        <div class="loading-shade" *ngIf="isLoading">
+          <mat-spinner diameter="50"></mat-spinner>
+        </div>
+  
+        <form [formGroup]="adquisicionForm" (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Presupuesto</mat-label>
+              <input matInput type="number" formControlName="presupuesto">
+              <span matPrefix>$&nbsp;</span>
+              <mat-error *ngIf="adquisicionForm.get('presupuesto')?.hasError('required')">
+                Presupuesto es requerido
+              </mat-error>
+              <mat-error *ngIf="adquisicionForm.get('presupuesto')?.hasError('min')">
+                Debe ser mayor o igual a 0
+              </mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Unidad Administrativa</mat-label>
+              <mat-select formControlName="unidad">
+                <mat-option *ngFor="let unidad of unidades" [value]="unidad">
+                  {{ unidad }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="adquisicionForm.get('unidad')?.hasError('required')">
+                Unidad es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo de Bien o Servicio</mat-label>
+              <mat-select formControlName="tipoBienServicio">
+                <mat-option *ngFor="let tipo of tiposBienServicio" [value]="tipo">
+                  {{ tipo }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="adquisicionForm.get('tipoBienServicio')?.hasError('required')">
+                Tipo de bien o servicio es requerido
+              </mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Cantidad</mat-label>
+              <input matInput type="number" formControlName="cantidad">
+              <mat-error *ngIf="adquisicionForm.get('cantidad')?.hasError('required')">
+                Cantidad es requerida
+              </mat-error>
+              <mat-error *ngIf="adquisicionForm.get('cantidad')?.hasError('min')">
+                Debe ser mayor o igual a 1
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Valor Unitario</mat-label>
+              <input matInput type="number" formControlName="valorUnitario">
+              <span matPrefix>$&nbsp;</span>
+              <mat-error *ngIf="adquisicionForm.get('valorUnitario')?.hasError('required')">
+                Valor unitario es requerido
+              </mat-error>
+              <mat-error *ngIf="adquisicionForm.get('valorUnitario')?.hasError('min')">
+                Debe ser mayor o igual a 0
+              </mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Valor Total</mat-label>
+              <input matInput formControlName="valorTotal" readonly>
+              <span matPrefix>$&nbsp;</span>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de Adquisición</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="fechaAdquisicion">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="adquisicionForm.get('fechaAdquisicion')?.hasError('required')">
+                Fecha de adquisición es requerida
+              </mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Proveedor</mat-label>
+              <mat-select formControlName="proveedor">
+                <mat-option *ngFor="let proveedor of proveedores" [value]="proveedor">
+                  {{ proveedor }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="adquisicionForm.get('proveedor')?.hasError('required')">
+                Proveedor es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Documentación</mat-label>
+              <textarea matInput formControlName="documentacion" rows="3"></textarea>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-row" *ngIf="isEditing">
+            <mat-checkbox formControlName="activo">Activo</mat-checkbox>
+          </div>
+  
+          <div class="form-actions">
+            <button mat-raised-button color="primary" type="submit" [disabled]="isLoading">
+              {{ isEditing ? 'Actualizar' : 'Crear' }} Adquisición
+            </button>
+            <button mat-button type="button" (click)="cancelar()" [disabled]="isLoading">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>

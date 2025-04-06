@@ -1,0 +1,29 @@
+/* src/app/features/adquisiciones/components/adquisicion-filter/adquisicion-filter.component.scss */
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    
+    mat-form-field {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    mat-checkbox {
+      margin: auto 0;
+      min-width: 200px;
+    }
+  }
+  
+  .filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+  }

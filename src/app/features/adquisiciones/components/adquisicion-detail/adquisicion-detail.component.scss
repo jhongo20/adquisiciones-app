@@ -1,0 +1,75 @@
+/* src/app/features/adquisiciones/components/adquisicion-detail/adquisicion-detail.component.scss */
+.adquisicion-detail-container {
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .loading-shade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .status-chip {
+    margin-left: 10px;
+  }
+  
+  .detail-section {
+    padding: 20px;
+  }
+  
+  .detail-row {
+    display: flex;
+    margin-bottom: 15px;
+  }
+  
+  .detail-label {
+    width: 200px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .detail-value {
+    flex: 1;
+  }
+  
+  .documentation {
+    white-space: pre-line;
+    margin: 10px 0;
+  }
+  
+  mat-divider {
+    margin: 20px 0;
+  }
+  
+  .table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    
+    button {
+      margin-left: 8px;
+    }
+  }
